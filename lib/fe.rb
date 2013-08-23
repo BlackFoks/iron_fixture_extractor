@@ -129,6 +129,31 @@ module Fe
       end
       true
     end
+
+    # Say something about your fixture set that you might write tests
+    # against.
+    def create_fact(extract_name, fact_name, fact)
+      extractor = Fe::Extractor.new
+      extractor.name = extract_name
+      extractor.load_from_manifest
+      extractor.fact_hash[fact_name] = fact
+      extractor.write_manifest_yml # write it
+      extractor.load_from_manifest # reload it
+      extractor.fact_hash[fact_name] # return it
+    end
+
+    # Return the fact from the extract_name fixture set
+    # indexed by fact_name
+    def fact(extract_name, fact_name)
+      extractor = Fe::Extractor.new
+      extractor.name = extract_name
+      extractor.load_from_manifest
+      if extractor.fact_hash.has_key?(fact_name)
+        extractor.fact_hash[fact_name]
+      else
+        raise "no fact called #{fact_hash} for #{extract_name} fixtures"
+      end
+    end
   end
 end
 
