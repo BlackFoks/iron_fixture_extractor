@@ -11,6 +11,7 @@ module Fe
 
     # An accessor to an arbitrary hash of facts about the fixture set.
     def fact_hash
+      @manifest_hash[:fact_hash] ||= {} 
       @manifest_hash[:fact_hash]
     end
      
