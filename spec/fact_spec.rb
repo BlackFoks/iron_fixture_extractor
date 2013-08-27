@@ -11,4 +11,13 @@ describe "Fe.fact" do
     expect(Fe.create_fact(:first_post_w_comments_and_authors,:the_id,an_integer_fact)).to eql(an_integer_fact)
     expect(Fe.fact(:first_post_w_comments_and_authors,:the_id)).to eql(an_integer_fact)
   end
+  it 'raises a meaningful exception if an invalid fact is requested' do
+    e=nil
+    begin
+      Fe.fact(:first_post_w_comments_and_authors,:this_is_invalid)
+    rescue Exception => e
+      e=e
+    end
+    expect(e.message).to match(/no fact/i)
+  end
 end

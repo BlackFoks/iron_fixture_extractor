@@ -151,7 +151,7 @@ module Fe
       if extractor.fact_hash.has_key?(fact_name)
         extractor.fact_hash[fact_name]
       else
-        raise "no fact called #{fact_hash} for #{extract_name} fixtures"
+        raise "no fact called #{extractor.fact_hash} for #{extract_name} fixtures"
       end
     end
   end
