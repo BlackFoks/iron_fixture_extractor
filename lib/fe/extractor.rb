@@ -44,7 +44,7 @@ module Fe
     def load_into_database(options={})
       # necessary to make multiple invocations possible in a single test
       # case possible
-      ActiveRecord::Fixtures.reset_cache
+      ActiveRecord::FixtureSet.reset_cache
 
       # Filter down the models to load if specified
       the_tables = if options.has_key?(:only)
@@ -65,7 +65,7 @@ module Fe
         end
         if options[:map].nil?
           # Vanilla create_fixtures will work fine when no mapping is being used
-          ActiveRecord::Fixtures.create_fixtures(self.target_path, table_name)
+          ActiveRecord::FixtureSet.create_fixtures(self.target_path, table_name)
         else
           # Map table_name via a function (great for prefixing)
           new_table_name = if options[:map].kind_of?(Proc)
@@ -76,13 +76,13 @@ module Fe
           else
             table_name # No mapping for this table name
           end
-          fixtures = ActiveRecord::Fixtures.new( ActiveRecord::Base.connection,
+          fixtures = ActiveRecord::FixtureSet.new( ActiveRecord::Base.connection,
               new_table_name,
               class_name,
               ::File.join(self.target_path, table_name))
           fixtures.table_rows.each do |the_table_name,rows|
             rows.each do |row|
-              ActiveRecord::Base.connection.insert_fixture(row, the_table_name)
+              ActiveRecord::Base.connection.insert_fixture(row, new_table_name)
             end
           end
         end
@@ -238,7 +238,7 @@ module Fe
             fixture_name = "r#{Array(record.id).join('_')}"
             hash[fixture_name] = record.attributes
             # dump serialized attributes
-            record.serialized_attributes.each do |attr, serializer|
+            record.class.serialized_attributes.each do |attr, serializer|
               hash[fixture_name][attr] = serializer.dump(hash[fixture_name][attr])
             end
             hash
