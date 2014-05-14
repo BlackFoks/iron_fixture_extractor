@@ -14,8 +14,8 @@ Gem::Specification.new do |gem|
   gem.name          = "iron_fixture_extractor"
   gem.require_paths = ["lib"]
   gem.version       = Fe::VERSION
-  gem.add_runtime_dependency "activerecord", "~> 4.0.2"
-  gem.add_runtime_dependency "activesupport", "~> 4.0.2"
+  gem.add_runtime_dependency "activerecord", "~> 4.0"
+  gem.add_runtime_dependency "activesupport", "~> 4.0"
   gem.add_runtime_dependency "protected_attributes"
   gem.license = 'MIT'
 end
